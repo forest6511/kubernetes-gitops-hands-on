@@ -1,0 +1,60 @@
+# kube-prometheus-stack Helm values
+# Usage: helm install monitoring prometheus-community/kube-prometheus-stack -f prometheus-values.yaml -n monitoring
+
+prometheus:
+  prometheusSpec:
+    # ServiceMonitor selector: todo-app Namespace のものも収集
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorNamespaceSelector: {}
+    # リソース制限（minikube 向け）
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+    # データ保持期間
+    retention: 7d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+
+grafana:
+  adminPassword: admin
+  # ダッシュボードプロビジョニング
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: custom
+          orgId: 1
+          folder: "Todo App"
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/custom
+  dashboardsConfigMaps:
+    custom: todo-app-dashboard
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi

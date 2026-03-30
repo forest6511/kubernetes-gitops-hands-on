@@ -1,0 +1,51 @@
+# Gateway API on AWS Load Balancer Controller
+# minikube の Envoy GatewayClass から AWS LB Controller に切り替え
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: amazon-alb
+spec:
+  controllerName: gateway.k8s.aws/alb
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: todo-gateway
+  namespace: todo-app
+  annotations:
+    # internet-facing ALB を作成
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  gatewayClassName: amazon-alb
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: todo-routes
+  namespace: todo-app
+spec:
+  parentRefs:
+    - name: todo-gateway
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      backendRefs:
+        - name: todo-api
+          port: 8080
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: todo-frontend
+          port: 80

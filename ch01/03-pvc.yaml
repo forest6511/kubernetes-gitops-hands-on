@@ -6,8 +6,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  # EKSではStorageClassを明示的に指定する（gp3推奨）
-  storageClassName: ebs-gp3
   resources:
     requests:
       storage: 1Gi

@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: todo-api
-          # EKS用: YOUR_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/todo-api:v1.0.0
-          image: YOUR_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/todo-api:v1.0.0
+          image: forest6511/todo-api:v1.0.0
           ports:
             - containerPort: 8080
           env:
@@ -80,8 +79,7 @@ spec:
     spec:
       containers:
         - name: todo-frontend
-          # EKS用: YOUR_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/todo-frontend:v1.0.0
-          image: YOUR_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/todo-frontend:v1.0.0
+          image: forest6511/todo-frontend:v1.0.0
           ports:
             - containerPort: 80
           resources:

@@ -1,6 +1,8 @@
 # Kubernetes実践ハンズオン - サンプルリポジトリ
 
-本リポジトリは書籍『**Kubernetes実践ハンズオン: GitHub Actions・ArgoCD・Amazon EKSで本番運用**』の教材です。
+本リポジトリは書籍『**[Kubernetes実践ハンズオン: GitHub Actions・ArgoCD・Amazon EKSで本番運用](https://www.amazon.co.jp/dp/B0D33JTNFF)**』の教材です。
+
+[![Kindle](https://img.shields.io/badge/Kindle-Amazon-orange)](https://www.amazon.co.jp/dp/B0D33JTNFF)
 
 ## 前提条件
 
